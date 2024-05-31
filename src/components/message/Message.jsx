@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./message.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function Message({ setIsGenerating }) {
   const [content, setContent] = useState("");
   const eventSourceRef = useRef();
@@ -9,7 +11,7 @@ function Message({ setIsGenerating }) {
     console.log("Component mounted.");
     setIsGenerating(true);  // Assume we start generating when component mounts
 
-    eventSourceRef.current = new EventSource("http://localhost:4000/events");
+    eventSourceRef.current = new EventSource(`${apiUrl}/events`);
 
     eventSourceRef.current.onmessage = function (event) {
       // 使用正则表达式替换 % 和 。 后面的内容为 <br />
