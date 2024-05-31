@@ -1,0 +1,45 @@
+.message-box{
+    margin: 40px auto;
+    width: 250px;
+    /* height: 50px; */
+    color: #fff;
+    line-height: 20px;
+    font-size: 14px;
+    text-align: left;
+    /* text-indent: 5rem; */
+    position: relative;
+    background: #4F7AF6;
+    border-radius: 5px;
+    padding: 15px 15px;
+    position: absolute;
+    right: -150px;
+    top: -110px;
+    white-space: pre-wrap; /* 确保换行和空格被保留 */
+}
+
+.message-box p {
+    text-indent: 2em; /* 每个段落首行缩进 */
+}
+
+.message-box h1{
+    font-weight: bold;
+    font-size: large;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+}
+  
+
+.message-box::after{
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    /* 箭头靠下边 skewX(50deg)和skewX(-50deg)可以调节箭头方向 */ 
+    top: 35px;
+    left: -40px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 40px solid #4F7AF6;
+    transform: skewY(-50deg);
+}
