@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./message.css";
 
+import { CloseOutlined } from "@ant-design/icons";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function Message({ setIsGenerating }) {
@@ -9,20 +11,24 @@ function Message({ setIsGenerating }) {
 
   useEffect(() => {
     console.log("Component mounted.");
-    setIsGenerating(true);  // Assume we start generating when component mounts
+    setIsGenerating(true); // Assume we start generating when component mounts
 
     eventSourceRef.current = new EventSource(`${apiUrl}/events`);
 
     eventSourceRef.current.onmessage = function (event) {
       // 使用正则表达式替换 % 和 。 后面的内容为 <br />
-      const newData = event.data.replace(/%/g, "%<br />").replace(/。/g, "。<br />");
+      const newData = event.data
+        .replace(/%/g, "%<br />")
+        .replace(/。/g, "。<br />");
 
       setContent((prevContent) => {
         const updatedContent = prevContent + newData;
         const last20Chars = updatedContent.slice(-20);
         console.log(last20Chars);
-        const updatedLast20Chars = last20Chars
-        .replace(/(患病概率|体重管理|戒烟限酒|定期体检|药物治疗|急诊准备|42%|50%)/g, "<strong>$1</strong>");
+        const updatedLast20Chars = last20Chars.replace(
+          /(患病概率|体重管理|戒烟限酒|定期体检|药物治疗|急诊准备|42%|50%)/g,
+          "<strong>$1</strong>"
+        );
         return updatedContent.slice(0, -20) + updatedLast20Chars;
       });
     };
@@ -32,7 +38,7 @@ function Message({ setIsGenerating }) {
       if (eventSourceRef.current.readyState === EventSource.CLOSED) {
         console.log("EventSource closed by the server.");
       }
-      setIsGenerating(false); // Set generating to false when SSE is closed or errors out
+      setTimeout(() => setIsGenerating(false), 3000)
       eventSourceRef.current.close(); // Ensure we close on our side as well
     };
 
@@ -46,7 +52,23 @@ function Message({ setIsGenerating }) {
   }, [setIsGenerating]); // Include setIsGenerating in the dependency array to follow best practices
 
   // 使用 dangerouslySetInnerHTML 以插入 HTML
-  return <div className="message-box" dangerouslySetInnerHTML={{ __html: "<h1>心鉴 - 你的医疗AI</h1>" + content }}></div>;
+  return (
+    <>
+      {/* <button
+        onClick={setIsGenerating(false)}
+        className="close-btn"
+        type="button"
+      >
+        <CloseOutlined  />
+      </button> */}
+      <div
+        className="message-box"
+        dangerouslySetInnerHTML={{
+          __html: "<h1>心鉴 - 你的医疗AI</h1>" + content,
+        }}
+      ></div>
+    </>
+  );
 }
 
 export default Message;

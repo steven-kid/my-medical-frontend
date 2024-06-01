@@ -12,12 +12,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { ManOutlined, WomanOutlined, FileSearchOutlined } from "@ant-design/icons";
+import { ManOutlined, WomanOutlined, FileSearchOutlined, UndoOutlined } from "@ant-design/icons";
 import { Divider } from "antd";
+import ImageUpload from "../imageUpload/ImageUpload";
 
 function Right({ isGenerating, setIsGenerating }) {
-  const [age, setAge] = useState(30);
+  // 使用useState钩子来存储图片的URL
+  const [image, setImage] = useState(null);
   const [sex, setSex] = useState(false); // false for male, true for female
+  const [age, setAge] = useState(20);
+  const [LVIDd, setLVIDd] = useState('');
+  const [LVPWd, setLVPWd] = useState('');
+  const [IVSd, setIVSd] = useState('');
+
+  function reset(){
+    setImage(null)
+    setSex(false);
+    setAge(20);
+    setLVIDd('');
+    setLVPWd('');
+    setIVSd('');
+  }
+
   return (
     <Card className="w-[500px]">
       <CardHeader>
@@ -28,6 +44,9 @@ function Right({ isGenerating, setIsGenerating }) {
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+              <ImageUpload image={image} setImage={setImage}/>
+            </div>
             <div className="flex h-12 items-center justify-between">
               <Label htmlFor="name">性别</Label>
               <div className="flex justify-center flex-grow">
@@ -65,20 +84,29 @@ function Right({ isGenerating, setIsGenerating }) {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">左心室的整体大小（LVIDd）</Label>
-              <Input id="name" placeholder="输入左心室的整体大小（LVIDd）" />
+              <Input id="name" placeholder="请输入左心室的整体大小（LVIDd）" onChange={((e) => setLVIDd(e.target.value))} value={LVIDd} />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">心脏左壁的厚度（LVPWd ）</Label>
-              <Input id="name" placeholder="输入心脏左壁的厚度（LVPWd ）" />
+              <Label htmlFor="name">心脏左壁的厚度（LVPWd）</Label>
+              <Input id="name" placeholder="请输入心脏左壁的厚度（LVPWd）" onChange={((e) => setLVPWd(e.target.value))} value={LVPWd}/>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">隔膜壁厚度（IVSd ）</Label>
-              <Input id="name" placeholder="输入隔膜壁厚度（IVSd ）" />
+              <Label htmlFor="name">隔膜壁厚度（IVSd）</Label>
+              <Input id="name" placeholder="请输入隔膜壁厚度（IVSd）" onChange={((e) => setIVSd(e.target.value))} value={IVSd}/>
             </div>
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-around">
+      <CardFooter className="flex justify-between">
+      <Button
+          variant="secondary"
+          className="w-1/3"
+          onClick={() => reset()}
+          disabled={isGenerating}
+          type="button"
+        >
+          <UndoOutlined className="w-4 h-4 mr-2" /> 重置
+        </Button>
         <Button
           className="w-1/3"
           onClick={() => setIsGenerating(!isGenerating)}

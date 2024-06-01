@@ -43,3 +43,13 @@
     border-right: 40px solid #4F7AF6;
     transform: skewY(-50deg);
 }
+
+/* .close-btn{
+    position: absolute;
+    right: -139px;
+    top: -63px;
+    z-index: 1;
+    color: #F2F5F9;
+    font-weight: bold;
+    pointer-events: cursor;
+} */
