@@ -58,7 +58,7 @@ function ImageUpload({image, setImage}) {
             style={{ maxWidth: "40%", height: "auto" }}
           />
           <Button variant="destructive" onClick={deleteImage} className="w-1/4" type="button">
-          <DeleteOutlined className="w-4 h-4 mr-2"/>
+          <DeleteOutlined className="w-4 h-4 mr-2"/>删除
           </Button>
         </>
       )}
